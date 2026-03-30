@@ -14,11 +14,15 @@ def product_list(request):
 # Fonction de création d'un produit
 def product_create(request):
     if request.method == 'POST':
+        #Récupération des Valeurs
         name = request.POST['name']
         price = request.POST['price']
         expiration_date = request.POST['expiration_date']
+        #Création de l'objet
         Product.objects.create(name = name, price = price, expiration_date = expiration_date)
+        #Message en cas d'action réussie
         messages.success(request,f'Produit « {name} » créé avec succès.' )
+        #Renvoi vers la page de liste des produits
         return redirect('product_list')
     return render(request, 'products/product_form.html' , {'title' : 'Nouveau produit'})
 
