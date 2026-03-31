@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+
+  <form method="POST">
+    <!-- Protection contre les attaques CSRF (Cross Site Request Forgery)   -->
+    {% csrf_token %}
+
+    <div>
+      <label for="name">Nom</label>
+      <input type="text" name="name" id="name" value="{{ product.name }}">
+    </div>
+
+    <div>
+      <label for="price">Prix (€)</label>
+      <input type="number" name="price" id="price" step="0.01" value="{{ product.price }}">
+    </div>
+
+    <div>
+      <label for="expiration_date">Date de péremption</label>
+      <input type="date" name="expiration_date" id="expiration_date" value="{{ product.expiration_date|date:'Y-m-d' }}">
+    </div>
+
+    <button type="submit">Enregistrer</button>
+    <a href="{% url 'product_list' %}">Annuler</a>
+
+  </form>
+
+{% endblock %}

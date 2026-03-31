@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Nouvelle facture{% endblock %}
+
+{% block content %}
+
+  <h1>Nouvelle facture</h1>
+
+  <form method="POST">
+   <!-- Protection contre les attaques CSRF (Cross Site Request Forgery)   -->
+    {% csrf_token %}
+
+    <div>
+      <label for="number">Numéro de facture</label>
+      <input type="text" name="number" id="number">
+    </div>
+
+    <div>
+      <label for="client_name">Nom du client</label>
+      <input type="text" name="client_name" id="client_name">
+    </div>
+
+    <h2>Produits</h2>
+
+    <div id="products-container">
+      <div class="product-row" id="product-row">
+        <select name="product_id" id="product_id">
+          <option value="">-- Choisir un produit --</option>
+          {% for product in products %}
+            <option value="{{ product.id }}" >{{ product.name }} - {{ product.price }} €</option>
+          {% endfor %}
+        </select>
+        <input type="number" id="quantity" name="quantity" min="1" value="1">
+      </div>
+    </div>
+
+    <button type="button" id="add-product">+ Ajouter un produit</button>
+
+    <br>
+    <button type="submit">Créer la facture</button>
+    <a href="{% url 'invoice_list' %}">Annuler</a>
+
+  </form>
+
+    <script>
+        // Récupération du conteneur des produits
+        const container = document.getElementById('products-container');
+        // Récupération de la première ligne
+        const firstRow = document.getElementById('product-row');
+        // Récupération du bouton ajouter un produit
+        let add_product = document.getElementById('add-product');
+        add_product.addEventListener('click', function() {
+        // Clonage de la première ligne 
+        const newRow = firstRow.cloneNode(true);
+        // Récupération de la quantitée
+        let quantity = newRow.querySelector('input[name="quantity"]');
+        // Reset de la quantitée à la valeur par défaut
+        quantity.value = 1;
+        // Récupération du select
+        let product_id =  newRow.querySelector('select[name="product_id"]')
+        // Reset de l'option choisie dans le select
+        product_id.selectedIndex = 0;
+        // Fixation de la nouvelle ligne dans le container
+        container.appendChild(newRow);
+        });
+    </script>
+
+{% endblock %}

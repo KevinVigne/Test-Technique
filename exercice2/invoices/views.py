@@ -23,7 +23,7 @@ def invoice_create(request):
     if request.method == 'POST':
         #Récupération des données du formulaire
         number = request.POST['number']
-        client_name = request.post['client_name']
+        client_name = request.POST['client_name']
         #Création de l'objet facture
         invoice = Invoice.objects.create(number=number , client_name= client_name)
         #Récupération de la liste des id des produits 
