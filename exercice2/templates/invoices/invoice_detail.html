@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Facture {{ invoice.number }}{% endblock %}
+
+{% block content %}
+    <h1 class="text-center">Facture {{ invoice.number }}</h1>
+    <p class="text-center">Client : {{ invoice.client_name }}</p>
+    <p class="text-center">Date : {{ invoice.creation_date }}</p>
+
+    <h2 class=" container text-center">Produits</h2>
+    <div class="container-fluid d-flex justify-content-center flex-wrap">
+        {% for item in items %}
+        <div class="card row col-3 m-3 text-center">
+            <p>Produit : {{ item.product.name }}</p>
+            <p>Prix unitaire : {{ item.product.price }} €</p>
+            <p>Quantité : {{ item.quantity }}</p>
+            <p>Sous-total : {{ item.sub_total }} €</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="container-fluid justify-content-center text-center">
+        <h2>Récapitulatif</h2>
+        <p>Nombre total d'articles : {{ invoice.total_quantity }}</p>
+        <p class="bg-">Total à payer : {{ invoice.total }} €</p>
+        <a href="{% url 'invoice_delete' invoice.id %}" class="btn btn-outline-danger">Supprimer la facture</a>
+        <a href="{% url 'invoice_list' %}" class=" btn btn-outline-info">Retour à la liste</a>
+    </div> 
+{% endblock %}

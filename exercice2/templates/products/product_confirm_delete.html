@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Supprimer {{ product.name }}{% endblock %}
+
+{% block content %}
+
+    <h1>Supprimer un Produit </h1>
+
+    <p>Voulez-vous vraiment supprimer le produit <span class="font-weight-bold">{{ product.name }}</span>  ?</p>
+    <p class="font-italic">Cette action est irréversible.</p>
+
+
+    <form method="POST">
+        <!-- Protection contre les attaques CSRF (Cross Site Request Forgery)   -->
+        {% csrf_token %}
+        <button type="submit">Confirmer la Suppression</button>
+        <a href="{% url 'product_list' %}">Annuler</a>
+    </form>
+{% endblock %}

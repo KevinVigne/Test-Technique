@@ -9,8 +9,8 @@ from products.models import Product
 def invoice_list (request):
     #Récupération de toute les factures
     invoices = Invoice.objects.all()
-    #Découpage de la page en 8
-    paginator = Paginator(invoices , 8)
+    #4 Factures par page
+    paginator = Paginator(invoices , 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     #Renvoie la page actuelle au template
@@ -23,7 +23,7 @@ def invoice_create(request):
     if request.method == 'POST':
         #Récupération des données du formulaire
         number = request.POST['number']
-        client_name = request.post['client_name']
+        client_name = request.POST['client_name']
         #Création de l'objet facture
         invoice = Invoice.objects.create(number=number , client_name= client_name)
         #Récupération de la liste des id des produits 
