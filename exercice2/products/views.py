@@ -6,7 +6,7 @@ from .models import Product
 # Fonction d'affichage de la liste des Produits
 def product_list(request):
     products = Product.objects.all()
-    paginator = Paginator(products , 8)
+    paginator = Paginator(products , 4)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request , 'products/product_list.html' , {'page_obj' : page_obj})
